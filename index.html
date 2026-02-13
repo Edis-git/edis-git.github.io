@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💕 Willst du mein Valentine sein? 💕</title>
+<title>💕 Valentins Überaschung 💕</title>
 
 <style>
 body{
@@ -14,7 +14,6 @@ body{
     background-size:400% 400%;
     animation:bg 6s ease infinite;
 }
-
 @keyframes bg{
     0%,100%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
@@ -28,20 +27,38 @@ body{
     height:100vh;
     text-align:center;
     padding:20px;
+    position:relative;
 }
 
 h1{
     color:white;
     font-size:2.2em;
+    z-index:10;
 }
 
+/* 🔹 Startscreen schwebender Name */
+.floating-text{
+    position:absolute;
+    color:rgba(255,255,255,0.2);
+    font-weight:bold;
+    pointer-events:none;
+    user-select:none;
+    animation:floatText linear infinite;
+}
+@keyframes floatText{
+    0%{transform:translate(0,0);}
+    50%{transform:translate(50px,100px);}
+    100%{transform:translate(0,0);}
+}
+
+/* 🔹 Bild */
 .image-zone{
     position:relative;
     height:220px;
     width:100%;
     overflow:hidden;
+    z-index:5;
 }
-
 .moving-image{
     position:absolute;
     top:20px;
@@ -54,13 +71,12 @@ h1{
     object-fit:cover;
     animation:float 4s ease-in-out infinite;
 }
-
 @keyframes float{
     0%,100%{transform:translate(-50%,0);}
     50%{transform:translate(-50%,-30px);}
 }
 
-/* Mobile Buttons */
+/* Buttons */
 .buttons{
     margin-top:30px;
     display:flex;
@@ -68,8 +84,8 @@ h1{
     gap:20px;
     width:100%;
     max-width:300px;
+    z-index:10;
 }
-
 button{
     padding:18px;
     font-size:1.3em;
@@ -78,17 +94,8 @@ button{
     cursor:pointer;
     font-weight:bold;
 }
-
-.yes-btn{
-    background:#ff1493;
-    color:white;
-}
-
-.no-btn{
-    background:#444;
-    color:white;
-    position:relative;
-}
+.yes-btn{background:#ff1493;color:white;}
+.no-btn{background:#444;color:white;}
 
 /* Feuerwerk */
 .firework{
@@ -96,14 +103,13 @@ button{
     font-size:30px;
     animation:explode 1.5s ease-out forwards;
 }
-
 @keyframes explode{
     from{transform:scale(0); opacity:1;}
     to{transform:scale(3); opacity:0;}
 }
 
 /* Result Screen */
-.result-screen{
+.result-screen, .next-screen{
     position:fixed;
     inset:0;
     background:black;
@@ -115,8 +121,7 @@ button{
     pointer-events:none;
     transition:opacity 1s;
 }
-
-.result-screen.show{
+.result-screen.show, .next-screen.show{
     opacity:1;
     pointer-events:auto;
 }
@@ -128,16 +133,9 @@ button{
     box-shadow:0 0 40px #ff69b4;
     animation:cinematic 1.5s ease forwards;
 }
-
 @keyframes cinematic{
-    from{
-        transform:scale(0.3) rotate(-10deg);
-        opacity:0;
-    }
-    to{
-        transform:scale(1) rotate(0deg);
-        opacity:1;
-    }
+    from{transform:scale(0.3) rotate(-10deg); opacity:0;}
+    to{transform:scale(1) rotate(0deg); opacity:1;}
 }
 
 .love-text{
@@ -146,14 +144,37 @@ button{
     margin-top:20px;
     animation:pulse 2s infinite;
 }
-
 @keyframes pulse{
     0%,100%{transform:scale(1);}
     50%{transform:scale(1.1);}
 }
 
+/* 🥳 Crazy Effekt Text */
+#crazyText{
+    color:yellow;
+    font-size:2em;
+    font-weight:bold;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    animation:moveText 2s infinite alternate, scaleText 1s infinite alternate, rotateText 3s infinite linear;
+}
+@keyframes moveText{
+    0%{transform:translate(-50%,-50%) translateX(-50px);}
+    100%{transform:translate(-50%,-50%) translateX(50px);}
+}
+@keyframes scaleText{
+    0%{transform:translate(-50%,-50%) scale(1);}
+    100%{transform:translate(-50%,-50%) scale(2);}
+}
+@keyframes rotateText{
+    0%{transform:translate(-50%,-50%) rotate(0deg);}
+    100%{transform:translate(-50%,-50%) rotate(360deg);}
+}
+
 /* Mobile Anpassung */
-@media (min-width:600px){
+@media(min-width:600px){
     h1{font-size:3em;}
     .buttons{flex-direction:row;}
 }
@@ -162,7 +183,7 @@ button{
 
 <body>
 
-<div class="container">
+<div class="container" id="startScreen">
     <h1>💕 Willst du mein Valentine sein? 💕</h1>
 
     <div class="image-zone">
@@ -175,25 +196,44 @@ button{
     </div>
 </div>
 
+<!-- Floating Names -->
+<script>
+const container=document.getElementById("startScreen");
+for(let i=0;i<15;i++){
+    let txt=document.createElement("div");
+    txt.className="floating-text";
+    txt.innerText="Zosia kochaniee";
+    txt.style.top=Math.random()*90+"%";
+    txt.style.left=Math.random()*90+"%";
+    txt.style.fontSize=(10+Math.random()*30)+"px";
+    txt.style.animationDuration=(5+Math.random()*5)+"s";
+    container.appendChild(txt);
+}
+</script>
+
+<!-- Result Screen nach JA -->
 <div class="result-screen" id="resultScreen">
     <img src="ja-bild.jpg" class="result-image">
-    <div class="love-text">Ich liebe dich ❤️</div>
+    <button onclick="nextScreen()" style="margin-top:20px;padding:15px 30px;border-radius:20px;font-size:1.2em;cursor:pointer;">Weiter</button>
+</div>
+
+<!-- Nächste Seite -->
+<div class="next-screen" id="nextScreen">
+    <h1 style="color:white;">Najaaa..</h1>
+    <button onclick="showCrazy()" style="margin-top:20px;padding:15px 30px;border-radius:20px;font-size:1.2em;cursor:pointer;">Edis private ordner</button>
+    <div id="crazyText"></div>
 </div>
 
 <script>
-
-/* Nein-Button bewegt sich (aber mobil sicher) */
 const noBtn=document.getElementById("noBtn");
-
 noBtn.addEventListener("click",()=>{
     const x=Math.random()*200-100;
     const y=Math.random()*200-100;
     noBtn.style.transform=`translate(${x}px,${y}px)`;
 });
 
-/* MASSIVES Feuerwerk */
 function yesClick(){
-
+    // Feuerwerk
     for(let i=0;i<80;i++){
         const fire=document.createElement("div");
         fire.className="firework";
@@ -201,13 +241,21 @@ function yesClick(){
         fire.style.left=Math.random()*100+"vw";
         fire.style.top=Math.random()*100+"vh";
         document.body.appendChild(fire);
-
         setTimeout(()=>fire.remove(),1500);
     }
-
     setTimeout(()=>{
+        document.getElementById("startScreen").style.display="none";
         document.getElementById("resultScreen").classList.add("show");
     },800);
+}
+
+function nextScreen(){
+    document.getElementById("resultScreen").classList.remove("show");
+    document.getElementById("nextScreen").classList.add("show");
+}
+
+function showCrazy(){
+    document.getElementById("crazyText").innerText="Leck meine eeeeier";
 }
 </script>
 
