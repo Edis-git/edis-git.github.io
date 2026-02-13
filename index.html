@@ -3,259 +3,285 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💕 Valentins Überaschung 💕</title>
+<title>💕 Valentins Überraschung 💕</title>
 
 <style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    overflow:hidden;
-    background:linear-gradient(45deg,#ff6b9d,#ffc0cb,#ff69b4,#ff1493);
-    background-size:400% 400%;
-    animation:bg 6s ease infinite;
-}
-@keyframes bg{
-    0%,100%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
+:root {
+    --primary-pink: #ff1493;
+    --soft-pink: #ff69b4;
 }
 
-.container{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    height:100vh;
-    text-align:center;
-    padding:20px;
-    position:relative;
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    background: linear-gradient(-45deg, #2a0845, #6441a5, #e73c7e, #ff1493);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+    color: white;
 }
 
-h1{
-    color:white;
-    font-size:2.2em;
-    z-index:10;
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-/* 🔹 Startscreen schwebender Name */
-.floating-text{
-    position:absolute;
-    color:rgba(255,255,255,0.2);
-    font-weight:bold;
-    pointer-events:none;
-    user-select:none;
-    animation:floatText linear infinite;
-}
-@keyframes floatText{
-    0%{transform:translate(0,0);}
-    50%{transform:translate(50px,100px);}
-    100%{transform:translate(0,0);}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    z-index: 20; /* Über den schwebenden Texten */
 }
 
-/* 🔹 Bild */
-.image-zone{
-    position:relative;
-    height:220px;
-    width:100%;
-    overflow:hidden;
-    z-index:5;
+h1 {
+    font-size: clamp(2.5em, 8vw, 4em);
+    text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    margin-bottom: 50px;
+    letter-spacing: 2px;
 }
-.moving-image{
-    position:absolute;
-    top:20px;
-    left:50%;
-    transform:translateX(-50%);
-    width:160px;
-    height:160px;
-    border-radius:50%;
-    border:4px solid white;
-    object-fit:cover;
-    animation:float 4s ease-in-out infinite;
+
+/* Schwebende Texte Animation */
+.floating-text {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.25);
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    filter: blur(0.5px);
+    animation: moveAround linear infinite;
 }
-@keyframes float{
-    0%,100%{transform:translate(-50%,0);}
-    50%{transform:translate(-50%,-30px);}
+
+@keyframes moveAround {
+    from { transform: translate(0, 0) rotate(0deg); }
+    to { transform: translate(100px, 100px) rotate(10deg); }
 }
 
 /* Buttons */
-.buttons{
-    margin-top:30px;
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-    width:100%;
-    max-width:300px;
-    z-index:10;
-}
-button{
-    padding:18px;
-    font-size:1.3em;
-    border:none;
-    border-radius:30px;
-    cursor:pointer;
-    font-weight:bold;
-}
-.yes-btn{background:#ff1493;color:white;}
-.no-btn{background:#444;color:white;}
-
-/* Feuerwerk */
-.firework{
-    position:absolute;
-    font-size:30px;
-    animation:explode 1.5s ease-out forwards;
-}
-@keyframes explode{
-    from{transform:scale(0); opacity:1;}
-    to{transform:scale(3); opacity:0;}
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    align-items: center;
 }
 
-/* Result Screen */
-.result-screen, .next-screen{
-    position:fixed;
-    inset:0;
-    background:black;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    opacity:0;
-    pointer-events:none;
-    transition:opacity 1s;
-}
-.result-screen.show, .next-screen.show{
-    opacity:1;
-    pointer-events:auto;
+button {
+    padding: 20px 50px;
+    font-size: 1.4em;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-.result-image{
-    width:80%;
-    max-width:400px;
-    border-radius:20px;
-    box-shadow:0 0 40px #ff69b4;
-    animation:cinematic 1.5s ease forwards;
-}
-@keyframes cinematic{
-    from{transform:scale(0.3) rotate(-10deg); opacity:0;}
-    to{transform:scale(1) rotate(0deg); opacity:1;}
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 30px rgba(255, 20, 147, 0.4);
 }
 
-.love-text{
-    color:white;
-    font-size:2em;
-    margin-top:20px;
-    animation:pulse 2s infinite;
+.yes-btn { 
+    background: white; 
+    color: var(--primary-pink);
 }
-@keyframes pulse{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.1);}
-}
-
-/* 🥳 Crazy Effekt Text */
-#crazyText{
-    color:yellow;
-    font-size:2em;
-    font-weight:bold;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    animation:moveText 2s infinite alternate, scaleText 1s infinite alternate, rotateText 3s infinite linear;
-}
-@keyframes moveText{
-    0%{transform:translate(-50%,-50%) translateX(-50px);}
-    100%{transform:translate(-50%,-50%) translateX(50px);}
-}
-@keyframes scaleText{
-    0%{transform:translate(-50%,-50%) scale(1);}
-    100%{transform:translate(-50%,-50%) scale(2);}
-}
-@keyframes rotateText{
-    0%{transform:translate(-50%,-50%) rotate(0deg);}
-    100%{transform:translate(-50%,-50%) rotate(360deg);}
+.no-btn { 
+    background: rgba(0, 0, 0, 0.5); 
+    color: white;
+    backdrop-filter: blur(5px);
 }
 
-/* Mobile Anpassung */
-@media(min-width:600px){
-    h1{font-size:3em;}
-    .buttons{flex-direction:row;}
+/* Screens */
+.result-screen, .next-screen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, #1a1a1a, #000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+    z-index: 100;
+}
+
+.result-screen.show, .next-screen.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.love-text {
+    font-size: 3.5em;
+    margin-bottom: 30px;
+    text-shadow: 0 0 30px var(--primary-pink);
+    animation: pulse 1.5s infinite;
+}
+
+.moving-image {
+    width: 280px;
+    height: 280px;
+    border-radius: 30px;
+    border: 6px solid white;
+    object-fit: cover;
+    box-shadow: 0 20px 50px rgba(255, 20, 147, 0.3);
+    animation: floatImg 4s ease-in-out infinite;
+}
+
+@keyframes floatImg {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+#crazyText {
+    color: #ffff00;
+    font-size: 3.5em;
+    font-weight: 900;
+    position: absolute;
+    top: 15%;
+    width: 100%;
+    text-align: center;
+    z-index: 110;
+    text-shadow: 4px 4px 0px #ff0000;
+}
+
+.animate-crazy {
+    animation: crazyAnim 0.4s infinite alternate;
+}
+
+@keyframes crazyAnim {
+    0% { transform: scale(1) translate(-5px, -5px); }
+    100% { transform: scale(1.2) translate(5px, 5px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.firework {
+    position: absolute;
+    pointer-events: none;
+    animation: explode 1.2s ease-out forwards;
+}
+
+@keyframes explode {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(5); opacity: 0; }
+}
+
+@media(min-width: 600px) {
+    .buttons { flex-direction: row; justify-content: center; }
 }
 </style>
 </head>
 
 <body>
 
+<div id="textBackground"></div>
+
 <div class="container" id="startScreen">
     <h1>💕 Willst du mein Valentine sein? 💕</h1>
-
-    <div class="image-zone">
-        <img src="euer-bild.jpg" class="moving-image">
-    </div>
-
+    
     <div class="buttons">
-        <button class="yes-btn" onclick="yesClick()">💖 JA 💖</button>
+        <button class="yes-btn" onclick="yesClick()">💖 JA, ich will! 💖</button>
         <button class="no-btn" id="noBtn">💔 Nein</button>
     </div>
 </div>
 
-<!-- Floating Names -->
-<script>
-const container=document.getElementById("startScreen");
-for(let i=0;i<15;i++){
-    let txt=document.createElement("div");
-    txt.className="floating-text";
-    txt.innerText="Zosia kochaniee";
-    txt.style.top=Math.random()*90+"%";
-    txt.style.left=Math.random()*90+"%";
-    txt.style.fontSize=(10+Math.random()*30)+"px";
-    txt.style.animationDuration=(5+Math.random()*5)+"s";
-    container.appendChild(txt);
-}
-</script>
-
-<!-- Result Screen nach JA -->
 <div class="result-screen" id="resultScreen">
-    <img src="ja-bild.jpg" class="result-image">
-    <button onclick="nextScreen()" style="margin-top:20px;padding:15px 30px;border-radius:20px;font-size:1.2em;cursor:pointer;">Weiter</button>
+    <div class="love-text">Ich liebe dich! ❤️</div>
+    <img src="ja-bild.jpg" class="moving-image">
+    <button onclick="nextScreen()" style="margin-top:50px; background: var(--primary-pink); color: white;">Weiter ✨</button>
 </div>
 
-<!-- Nächste Seite -->
 <div class="next-screen" id="nextScreen">
-    <h1 style="color:white;">Najaaa..</h1>
-    <button onclick="showCrazy()" style="margin-top:20px;padding:15px 30px;border-radius:20px;font-size:1.2em;cursor:pointer;">Edis private ordner</button>
     <div id="crazyText"></div>
+    <h1 style="font-size: 5em; opacity: 0.8;">Najaaa.. 🤔</h1>
+    <button onclick="showCrazy()" style="background: white; color: black; padding: 25px 50px; border-radius: 15px;">📂 Edis private Ordner öffnen</button>
 </div>
 
 <script>
-const noBtn=document.getElementById("noBtn");
-noBtn.addEventListener("click",()=>{
-    const x=Math.random()*200-100;
-    const y=Math.random()*200-100;
-    noBtn.style.transform=`translate(${x}px,${y}px)`;
+const phrases = ["Zosia kochaniee", "Ich liebe dich", "Lieblingsmensch", "<3", "Spacecake", "Mein Herz", "Valentinstag 2026"];
+const bgContainer = document.getElementById("textBackground");
+
+// Texte generieren mit echter Drift-Animation
+function createFloatingText() {
+    for(let i=0; i<30; i++){
+        let txt = document.createElement("div");
+        txt.className = "floating-text";
+        txt.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+        
+        // Zufällige Startposition
+        const startTop = Math.random() * 100;
+        const startLeft = Math.random() * 100;
+        
+        txt.style.top = startTop + "vh";
+        txt.style.left = startLeft + "vw";
+        txt.style.fontSize = (16 + Math.random() * 30) + "px";
+        txt.style.opacity = 0.1 + Math.random() * 0.3;
+        
+        // Individuelle Drift-Animation
+        const duration = 15 + Math.random() * 30;
+        const xMove = (Math.random() - 0.5) * 400;
+        const yMove = (Math.random() - 0.5) * 400;
+        
+        txt.animate([
+            { transform: 'translate(0, 0) rotate(0deg)' },
+            { transform: `translate(${xMove}px, ${yMove}px) rotate(${Math.random() * 360}deg)` }
+        ], {
+            duration: duration * 1000,
+            iterations: Infinity,
+            direction: 'alternate',
+            easing: 'linear'
+        });
+        
+        bgContainer.appendChild(txt);
+    }
+}
+createFloatingText();
+
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 200) - (window.innerWidth / 2 - 100);
+    const y = Math.random() * (window.innerHeight - 200) - (window.innerHeight / 2 - 100);
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
 });
 
-function yesClick(){
-    // Feuerwerk
-    for(let i=0;i<80;i++){
-        const fire=document.createElement("div");
-        fire.className="firework";
-        fire.innerHTML=["💖","✨","🎆","💕","❤️"][Math.floor(Math.random()*5)];
-        fire.style.left=Math.random()*100+"vw";
-        fire.style.top=Math.random()*100+"vh";
+function yesClick() {
+    for(let i=0; i<120; i++) {
+        const fire = document.createElement("div");
+        fire.className = "firework";
+        fire.innerHTML = ["❤️","💖","✨","🌸","💝"][Math.floor(Math.random()*5)];
+        fire.style.left = Math.random() * 100 + "vw";
+        fire.style.top = Math.random() * 100 + "vh";
+        fire.style.fontSize = Math.random() * 40 + 20 + "px";
         document.body.appendChild(fire);
-        setTimeout(()=>fire.remove(),1500);
+        setTimeout(() => fire.remove(), 1200);
     }
-    setTimeout(()=>{
-        document.getElementById("startScreen").style.display="none";
+    
+    setTimeout(() => {
+        document.getElementById("startScreen").style.display = "none";
         document.getElementById("resultScreen").classList.add("show");
-    },800);
+    }, 600);
 }
 
-function nextScreen(){
+function nextScreen() {
     document.getElementById("resultScreen").classList.remove("show");
     document.getElementById("nextScreen").classList.add("show");
 }
 
-function showCrazy(){
-    document.getElementById("crazyText").innerText="Leck meine eeeeier";
+function showCrazy() {
+    const crazy = document.getElementById("crazyText");
+    crazy.innerText = "Leck meine eeeeier! 🥚🥚";
+    crazy.classList.add("animate-crazy");
 }
 </script>
 
