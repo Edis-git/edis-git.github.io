@@ -36,31 +36,24 @@ body {
     text-align: center;
     padding: 20px;
     position: relative;
-    z-index: 20; /* Über den schwebenden Texten */
+    z-index: 20;
 }
 
 h1 {
-    font-size: clamp(2.5em, 8vw, 4em);
+    font-size: clamp(2.2em, 7vw, 3.5em);
     text-shadow: 0 10px 30px rgba(0,0,0,0.3);
     margin-bottom: 50px;
-    letter-spacing: 2px;
+    will-change: transform;
 }
 
-/* Schwebende Texte Animation */
 .floating-text {
     position: absolute;
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.2);
     font-weight: bold;
     pointer-events: none;
     user-select: none;
     white-space: nowrap;
-    filter: blur(0.5px);
-    animation: moveAround linear infinite;
-}
-
-@keyframes moveAround {
-    from { transform: translate(0, 0) rotate(0deg); }
-    to { transform: translate(100px, 100px) rotate(10deg); }
+    will-change: transform;
 }
 
 /* Buttons */
@@ -73,30 +66,21 @@ h1 {
 }
 
 button {
-    padding: 20px 50px;
-    font-size: 1.4em;
+    padding: 18px 45px;
+    font-size: 1.3em;
     border: none;
     border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    will-change: transform;
 }
 
-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 15px 30px rgba(255, 20, 147, 0.4);
-}
+button:active { transform: scale(0.95); }
 
-.yes-btn { 
-    background: white; 
-    color: var(--primary-pink);
-}
-.no-btn { 
-    background: rgba(0, 0, 0, 0.5); 
-    color: white;
-    backdrop-filter: blur(5px);
-}
+.yes-btn { background: white; color: var(--primary-pink); }
+.no-btn { background: rgba(0, 0, 0, 0.4); color: white; backdrop-filter: blur(5px); }
 
 /* Screens */
 .result-screen, .next-screen {
@@ -109,7 +93,7 @@ button:hover {
     flex-direction: column;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.8s ease;
+    transition: opacity 0.6s ease;
     z-index: 100;
 }
 
@@ -119,46 +103,44 @@ button:hover {
 }
 
 .love-text {
-    font-size: 3.5em;
+    font-size: 3em;
     margin-bottom: 30px;
-    text-shadow: 0 0 30px var(--primary-pink);
+    text-shadow: 0 0 20px var(--primary-pink);
     animation: pulse 1.5s infinite;
 }
 
 .moving-image {
-    width: 280px;
-    height: 280px;
-    border-radius: 30px;
-    border: 6px solid white;
+    width: 260px;
+    height: 260px;
+    border-radius: 25px;
+    border: 5px solid white;
     object-fit: cover;
-    box-shadow: 0 20px 50px rgba(255, 20, 147, 0.3);
     animation: floatImg 4s ease-in-out infinite;
+    will-change: transform;
 }
 
 @keyframes floatImg {
-    0%, 100% { transform: translateY(0) rotate(-2deg); }
-    50% { transform: translateY(-20px) rotate(2deg); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
 }
 
 #crazyText {
     color: #ffff00;
-    font-size: 3.5em;
+    font-size: 3em;
     font-weight: 900;
     position: absolute;
     top: 15%;
     width: 100%;
     text-align: center;
     z-index: 110;
-    text-shadow: 4px 4px 0px #ff0000;
+    text-shadow: 3px 3px 0px #ff0000;
 }
 
-.animate-crazy {
-    animation: crazyAnim 0.4s infinite alternate;
-}
+.animate-crazy { animation: crazyAnim 0.3s infinite alternate; }
 
 @keyframes crazyAnim {
-    0% { transform: scale(1) translate(-5px, -5px); }
-    100% { transform: scale(1.2) translate(5px, 5px); }
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
 }
 
 @keyframes pulse {
@@ -169,12 +151,13 @@ button:hover {
 .firework {
     position: absolute;
     pointer-events: none;
-    animation: explode 1.2s ease-out forwards;
+    will-change: transform, opacity;
+    animation: explode 1s ease-out forwards;
 }
 
 @keyframes explode {
     0% { transform: scale(0); opacity: 1; }
-    100% { transform: scale(5); opacity: 0; }
+    100% { transform: scale(3); opacity: 0; }
 }
 
 @media(min-width: 600px) {
@@ -204,45 +187,35 @@ button:hover {
 
 <div class="next-screen" id="nextScreen">
     <div id="crazyText"></div>
-    <h1 style="font-size: 5em; opacity: 0.8;">Najaaa.. 🤔</h1>
-    <button onclick="showCrazy()" style="background: white; color: black; padding: 25px 50px; border-radius: 15px;">📂 Edis private Ordner öffnen</button>
+    <h1 style="font-size: 4em; opacity: 0.8;">Najaaa.. 🤔</h1>
+    <button onclick="showCrazy()" style="background: white; color: black; padding: 20px 40px; border-radius: 15px;">📂 Edis private Ordner öffnen</button>
 </div>
 
 <script>
-const phrases = ["Zosia kochaniee", "Ich liebe dich", "Lieblingsmensch", "<3", "Spacecake", "Mein Herz", "Valentinstag 2026"];
+const phrases = ["Zosia kochaniee", "Ich liebe dich", "Lieblingsmensch", "<3", "Spacecake", "Mein Herz"];
 const bgContainer = document.getElementById("textBackground");
 
-// Texte generieren mit echter Drift-Animation
+// Hintergrund-Texte (Anzahl leicht reduziert für Performance)
 function createFloatingText() {
-    for(let i=0; i<30; i++){
+    for(let i=0; i<20; i++){
         let txt = document.createElement("div");
         txt.className = "floating-text";
         txt.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+        txt.style.top = Math.random() * 90 + "vh";
+        txt.style.left = Math.random() * 90 + "vw";
+        txt.style.fontSize = (16 + Math.random() * 20) + "px";
+        txt.style.opacity = 0.1 + Math.random() * 0.2;
         
-        // Zufällige Startposition
-        const startTop = Math.random() * 100;
-        const startLeft = Math.random() * 100;
-        
-        txt.style.top = startTop + "vh";
-        txt.style.left = startLeft + "vw";
-        txt.style.fontSize = (16 + Math.random() * 30) + "px";
-        txt.style.opacity = 0.1 + Math.random() * 0.3;
-        
-        // Individuelle Drift-Animation
-        const duration = 15 + Math.random() * 30;
-        const xMove = (Math.random() - 0.5) * 400;
-        const yMove = (Math.random() - 0.5) * 400;
-        
+        const duration = 20 + Math.random() * 20;
         txt.animate([
-            { transform: 'translate(0, 0) rotate(0deg)' },
-            { transform: `translate(${xMove}px, ${yMove}px) rotate(${Math.random() * 360}deg)` }
+            { transform: 'translate(0, 0)' },
+            { transform: `translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px)` }
         ], {
             duration: duration * 1000,
             iterations: Infinity,
             direction: 'alternate',
             easing: 'linear'
         });
-        
         bgContainer.appendChild(txt);
     }
 }
@@ -255,22 +228,34 @@ noBtn.addEventListener("mouseover", () => {
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 });
 
+// OPTIMIERTES JA-CLICK
 function yesClick() {
-    for(let i=0; i<120; i++) {
-        const fire = document.createElement("div");
-        fire.className = "firework";
-        fire.innerHTML = ["❤️","💖","✨","🌸","💝"][Math.floor(Math.random()*5)];
-        fire.style.left = Math.random() * 100 + "vw";
-        fire.style.top = Math.random() * 100 + "vh";
-        fire.style.fontSize = Math.random() * 40 + 20 + "px";
-        document.body.appendChild(fire);
-        setTimeout(() => fire.remove(), 1200);
-    }
-    
+    // Feuerwerk in kleinen Schüben, damit es nicht laggt
+    let count = 0;
+    const maxFire = 60; 
+    const interval = setInterval(() => {
+        for(let i=0; i<5; i++) { // 5 Emojis pro "Tick"
+            const fire = document.createElement("div");
+            fire.className = "firework";
+            fire.innerHTML = ["❤️","💖","✨","💝"][Math.floor(Math.random()*4)];
+            fire.style.left = Math.random() * 100 + "vw";
+            fire.style.top = Math.random() * 100 + "vh";
+            fire.style.fontSize = Math.random() * 20 + 20 + "px";
+            document.body.appendChild(fire);
+            setTimeout(() => fire.remove(), 1000);
+            count++;
+        }
+        if(count >= maxFire) clearInterval(interval);
+    }, 50);
+
+    // Sanfter Übergang
     setTimeout(() => {
-        document.getElementById("startScreen").style.display = "none";
-        document.getElementById("resultScreen").classList.add("show");
-    }, 600);
+        document.getElementById("startScreen").style.opacity = "0";
+        setTimeout(() => {
+            document.getElementById("startScreen").style.display = "none";
+            document.getElementById("resultScreen").classList.add("show");
+        }, 400);
+    }, 500);
 }
 
 function nextScreen() {
