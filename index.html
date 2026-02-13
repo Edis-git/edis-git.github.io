@@ -1,228 +1,180 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💕 Willst du mein Valentine sein? 💕</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(45deg, #ff6b9d, #ffc0cb, #ff69b4, #ff1493);
-            background-size: 400% 400%;
-            animation: gradientShift 3s ease infinite;
-            font-family: 'Arial', sans-serif;
-            min-height: 100vh;
-            overflow: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💕 Willst du mein Valentine sein? 💕</title>
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+<style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    min-height:100vh;
+    overflow:hidden;
+    background: linear-gradient(45deg,#ff6b9d,#ffc0cb,#ff69b4,#ff1493);
+    background-size:400% 400%;
+    animation: gradientShift 5s ease infinite;
+}
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-            position: relative;
-        }
+@keyframes gradientShift {
+    0%,100%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+}
 
-        h1 {
-            color: white;
-            font-size: 3em;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            animation: pulse 2s infinite;
-        }
+.container {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    text-align:center;
+}
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+h1 {
+    color:white;
+    font-size:3em;
+    animation:pulse 2s infinite;
+}
 
-        .moving-image {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 0 20px rgba(255,255,255,0.5);
-            object-fit: cover;
-            animation: float 4s ease-in-out infinite;
-        }
+@keyframes pulse {
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.05);}
+}
 
-        @keyframes float {
-            0%, 100% { 
-                transform: translate(0, 0) rotate(0deg); 
-            }
-            25% { 
-                transform: translate(100px, -50px) rotate(90deg); 
-            }
-            50% { 
-                transform: translate(0, -100px) rotate(180deg); 
-            }
-            75% { 
-                transform: translate(-100px, -50px) rotate(270deg); 
-            }
-        }
+/* 🔥 Bild-Bereich getrennt */
+.image-zone {
+    position:relative;
+    height:250px;
+    width:100%;
+    overflow:hidden;
+}
 
-        .buttons {
-            display: flex;
-            gap: 30px;
-            margin-top: 50px;
-            z-index: 10;
-        }
+.moving-image {
+    position:absolute;
+    top:25px;
+    left:50%;
+    transform:translateX(-50%);
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    border:5px solid white;
+    object-fit:cover;
+    animation:float 4s ease-in-out infinite;
+}
 
-        button {
-            padding: 15px 30px;
-            font-size: 1.5em;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
+@keyframes float {
+    0%,100%{transform:translate(-50%,0);}
+    50%{transform:translate(-50%,-40px);}
+}
 
-        .yes-btn {
-            background: #ff69b4;
-            color: white;
-            box-shadow: 0 5px 15px rgba(255,105,180,0.4);
-        }
+.buttons {
+    margin-top:30px;
+    display:flex;
+    gap:30px;
+}
 
-        .yes-btn:hover {
-            background: #ff1493;
-            transform: scale(1.1);
-        }
+button {
+    padding:15px 30px;
+    font-size:1.5em;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
 
-        .no-btn {
-            background: #666;
-            color: white;
-            box-shadow: 0 5px 15px rgba(102,102,102,0.4);
-        }
+.yes-btn {
+    background:#ff1493;
+    color:white;
+}
 
-        .no-btn:hover {
-            background: #333;
-            transform: scale(1.1);
-        }
+.yes-btn:hover {
+    transform:scale(1.2);
+}
 
-        .hidden {
-            display: none;
-        }
+.no-btn {
+    background:#555;
+    color:white;
+    position:relative;
+}
 
-        .result-image {
-            max-width: 80vw;
-            max-height: 80vh;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(255,255,255,0.8);
-            animation: zoomIn 0.5s ease;
-        }
+.message {
+    position:absolute;
+    bottom:20px;
+    font-size:1.2em;
+    color:white;
+    opacity:0;
+    animation:fadeIn 5s infinite;
+}
 
-        @keyframes zoomIn {
-            from { transform: scale(0); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+@keyframes fadeIn {
+    0%,100%{opacity:0;}
+    50%{opacity:1;}
+}
 
-        .hearts {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
+.confetti {
+    position:absolute;
+    font-size:25px;
+    animation:fall 3s linear forwards;
+}
 
-        .heart {
-            position: absolute;
-            color: rgba(255,255,255,0.8);
-            font-size: 20px;
-            animation: fall 3s linear infinite;
-        }
-
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-            }
-        }
-    </style>
+@keyframes fall {
+    to {transform:translateY(100vh) rotate(720deg);}
+}
+</style>
 </head>
+
 <body>
-    <div class="hearts" id="hearts"></div>
-    
-    <div class="container" id="main-content">
-        <h1>💕 Willst du mein Valentine sein? 💕</h1>
-        
-        <!-- Hier fügst du euer gemeinsames Bild ein -->
-        <img src="euer-bild.jpg" alt="Unser Foto" class="moving-image" id="movingImage">
-        
-        <div class="buttons">
-            <button class="yes-btn" onclick="showResult('yes')">💖 JA! 💖</button>
-            <button class="no-btn" onclick="showResult('no')">💔 Nein 💔</button>
-        </div>
+
+<div class="container">
+    <h1>💕 Willst du mein Valentine sein? 💕</h1>
+
+    <div class="image-zone">
+        <img src="euer-bild.jpg" class="moving-image">
     </div>
 
-    <div class="container hidden" id="result-content">
-        <img id="resultImage" class="result-image">
-        <br><br>
-        <button onclick="goBack()" style="margin-top: 20px; padding: 10px 20px; background: #ff69b4; color: white; border: none; border-radius: 15px; cursor: pointer;">← Zurück</button>
+    <div class="buttons">
+        <button class="yes-btn" onclick="yesClick()">💖 JA! 💖</button>
+        <button class="no-btn" id="noBtn">💔 Nein 💔</button>
     </div>
 
-    <script>
-        // Herzen fallen lassen
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = '💖';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.getElementById('hearts').appendChild(heart);
-            
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
-        }
+    <div class="message">
+        Ich verspreche Pizza, Kuscheln & schlechte Witze fürs ganze Leben 🍕🥰
+    </div>
+</div>
 
-        // Herzen alle 500ms erstellen
-        setInterval(createHeart, 500);
+<script>
+const noBtn = document.getElementById("noBtn");
 
-        function showResult(choice) {
-            const mainContent = document.getElementById('main-content');
-            const resultContent = document.getElementById('result-content');
-            const resultImage = document.getElementById('resultImage');
-            
-            // Hier fügst du die entsprechenden Bilder hinzu
-            if (choice === 'yes') {
-                resultImage.src = 'ja-bild.jpg'; // Ersetze mit eurem "Ja"-Bild
-                resultImage.alt = 'Yay! 💕';
-            } else {
-                resultImage.src = 'nein-bild.jpg'; // Ersetze mit eurem "Nein"-Bild
-                resultImage.alt = 'Oh nein! 💔';
-            }
-            
-            mainContent.classList.add('hidden');
-            resultContent.classList.remove('hidden');
-        }
+/* 😂 Nein-Button läuft weg */
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 80);
+    noBtn.style.position = "absolute";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
 
-        function goBack() {
-            const mainContent = document.getElementById('main-content');
-            const resultContent = document.getElementById('result-content');
-            
-            resultContent.classList.add('hidden');
-            mainContent.classList.remove('hidden');
-        }
+/* 🎉 Ja-Explosion */
+function yesClick(){
+    alert("Beste Entscheidung deines Lebens 😎💖");
 
-        // Bewegung des Bildes anhalten wenn Maus darüber ist
-        const movingImage = document.getElementById('movingImage');
-        movingImage.addEventListener('mouseenter', () => {
-            movingImage.style.animationPlayState = 'paused';
-        });
-        movingImage.addEventListener('mouseleave', () => {
-            movingImage.style.animationPlayState = 'running';
-        });
-    </script>
+    for(let i=0;i<40;i++){
+        const confetti = document.createElement("div");
+        confetti.className="confetti";
+        confetti.innerHTML=["💖","💕","✨","🥰","😍"][Math.floor(Math.random()*5)];
+        confetti.style.left=Math.random()*100+"vw";
+        confetti.style.top="0px";
+        document.body.appendChild(confetti);
+
+        setTimeout(()=>confetti.remove(),3000);
+    }
+
+    setTimeout(()=>{
+        alert("Ich liebe dich mehr als Terraform liebt saubere States ❤️");
+    },1500);
+}
+</script>
+
 </body>
 </html>
